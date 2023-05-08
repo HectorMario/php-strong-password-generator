@@ -5,33 +5,34 @@ $simboli = "/*?=)(/&%$#!";
 $limit = $_GET['lenght'];
 $repeat = $_GET['repeat'];
 $password = '';
-$newArray = '';
-
-
+$newArray = [];
+$newString = '';
     
     
     if(isset($_GET['lettere'])){
-        $newArray .= $lettere;
+        $newString .= $lettere;
     }
     if(isset($_GET['number'])){
-        $newArray .= $numeri;
+        $newString .= $numeri;
     }
     if(isset($_GET['simbol'])){
-        $newArray .= $simboli;
+        $newString .= $simboli;
     }
 
     if ($repeat == 'yes') {
         for ($i = 0; $i < $limit; $i++) {
-            $numberRamdom = rand(0, strlen($newArray) - 1);
-            $password .= $newArray[$numberRamdom];
+            $numberRamdom = rand(0, strlen($newString) - 1);
+            $password .= $newString[$numberRamdom];
         }
     } else {
-        for ($i = 0; $i < $limit; $i++) {
-            $numberRamdom = rand(0, strlen($newArray) - 1);
-            if (!strpos($password, $newArray[$numberRamdom])) {
-                $password .= $newArray[$numberRamdom];
+        $passwordArray = array($newString[0]);
+        for ($i = 1; $i < $limit; $i++) {
+            $random = rand(0, strlen($newString) - 1);
+            if (!in_array($newString[$random], $passwordArray)) {
+                array_push($passwordArray, $newString[$random]);
             } else {
                 $i--;
             }
         }
+        $password = implode($passwordArray);
     }
